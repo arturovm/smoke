@@ -6,10 +6,12 @@ import (
 	"io"
 )
 
-func ReadFile(path string) []byte {
+// ReadFile opens a given with the given filename and returns its
+// contents
+func ReadFile(path string) ([]byte, error) {
 	file, err := os.Open(path)
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 	defer file.Close()
 	size := file.Stat().Size()
@@ -17,11 +19,11 @@ func ReadFile(path string) []byte {
 	for {
 		n, err := file.Read(data)
 		if err != nil && err != io.EOF {
-			panic(err)
+			return nil, err
 		}
 		if n == 0 {
 			break
 		}
 	}
-	return data
+	return data, nil
 }
