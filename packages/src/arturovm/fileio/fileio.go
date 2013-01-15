@@ -2,7 +2,6 @@ package fileio
 
 import (
 	"os"
-	//"bytes"
 	"io"
 )
 
@@ -14,7 +13,8 @@ func ReadFile(path string) ([]byte, error) {
 		return nil, err
 	}
 	defer file.Close()
-	size := file.Stat().Size()
+	stat, _ := file.Stat()
+	size := stat.Size()
 	data := make([]byte, size)
 	for {
 		n, err := file.Read(data)

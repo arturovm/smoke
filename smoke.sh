@@ -1,2 +1,2 @@
-GOPATH=$GOPATH:`pwd`/packages go build -o smoke.bin app.go
+GOPATH=$GOPATH:`pwd`/packages go build -o smoke.bin ./ # app.go
 ./smoke.bin
