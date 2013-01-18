@@ -9,5 +9,6 @@ import (
 func RegisterHandlers () {
 	r := mux.NewRouter()
 	registerStaticHandlers(r)
+	registerAPIHandlers(r)
 	http.Handle("/", r)
 }

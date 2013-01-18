@@ -36,8 +36,3 @@ func registerStaticHandlers(r *mux.Router) {
 	r.HandleFunc("/styles/{file:\\w+\\.(css)}", stylesHandler)
 	//r.HandleFunc("/scripts/{file:\\w+\\.(js)}", scriptsHandler)
 }
-
-
-
-
-
