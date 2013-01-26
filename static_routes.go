@@ -4,13 +4,12 @@ import (
 	"net/http"
 	"os"
 	"github.com/gorilla/mux"
-	"arturovm/fileio"
 )
 
 
 func rootHandler(w http.ResponseWriter, r *http.Request) {
 	pwd, _ := os.Getwd()
-	data, _ := fileio.ReadFile(pwd + "/views/index.html")
+	data, _ := ReadFile(pwd + "/views/index.html")
 	w.Header().Set("content-type", "text/html")
 	n, err := w.Write(data)
 	if n != len(data) && err != nil {
@@ -20,7 +19,7 @@ func rootHandler(w http.ResponseWriter, r *http.Request) {
 
 func stylesHandler(w http.ResponseWriter, r *http.Request) {
 	pwd, _ := os.Getwd()
-	data, _ := fileio.ReadFile(pwd + "/views/styles/" + mux.Vars(r)["file"])
+	data, _ := ReadFile(pwd + "/views/styles/" + mux.Vars(r)["file"])
 	w.Header().Set("content-type", "text/css")
 	n, err := w.Write(data)
 	if n != len(data) && err != nil {
@@ -36,3 +35,5 @@ func registerStaticHandlers(r *mux.Router) {
 	r.HandleFunc("/styles/{file:\\w+\\.(css)}", stylesHandler)
 	//r.HandleFunc("/scripts/{file:\\w+\\.(js)}", scriptsHandler)
 }
+
+// TODO: Use DetectContentType()

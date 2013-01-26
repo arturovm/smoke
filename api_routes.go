@@ -75,3 +75,5 @@ func registerAPIHandlers(r *mux.Router) {
 	// push
 	r.HandleFunc("/{username}/{serviceid}/push", postUserServicePush).Methods("POST")
 }
+
+// TODO: Use http built-in error function
