@@ -3,40 +3,61 @@ package main
 import (
 	"net/http"
 	"github.com/gorilla/mux"
+	"encoding/json"
+	r "github.com/christopherhesse/rethinkgo"
 )
 
 // Users and services. Standard stuff.
 
-func postUsers(w http.ResponseWriter, r *http.Request) {
+func postUsers(w http.ResponseWriter, req *http.Request) {
+	sess, _ := r.Connect("localhost:28015", "smoke_test")
+	userErr := createUser(sess, req.FormValue("name"), req.FormValue("email"), req.FormValue("password"))
+	if userErr != nil {
+		w.WriteHeader(userErr.code)
+		data, _ := json.Marshal(userErr)
+		w.Write(data)
+	} else {
+		session, sessionErr := createSession(sess, req.FormValue("email"), req.FormValue("password"))
+		if sessionErr != nil {
+			w.WriteHeader(sessionErr.code)
+			data, _ := json.Marshal(sessionErr)
+			w.Write(data)
+		} else {
+			w.WriteHeader(http.StatusCreated)
+			//data, _ := json.Marshal(session)
+			data, _ := json.Marshal(map[string] string { "session_id": "test", "session_key": session.SessionKey})
+			w.Write(data)
+		}
+	}
 }
 
-func getUsersUser(w http.ResponseWriter, r *http.Request) {
+func getUsersUser(w http.ResponseWriter, req *http.Request) {
 }
 
-func putUsersUser(w http.ResponseWriter, r *http.Request) {
+func putUsersUser(w http.ResponseWriter, req *http.Request) {
 }
 
-func postServices(w http.ResponseWriter, r *http.Request) {
+func postServices(w http.ResponseWriter, req *http.Request) {
 }
 
-func getServicesService(w http.ResponseWriter, r *http.Request) {
+func getServicesService(w http.ResponseWriter, req *http.Request) {
 }
 
-func putServicesService(w http.ResponseWriter, r *http.Request) {
+func putServicesService(w http.ResponseWriter, req *http.Request) {
 }
 
 // Auth
 
-func postSessions(w http.ResponseWriter, r *http.Request) {
+func postSessions(w http.ResponseWriter, req *http.Request) {
 }
 
-func deleteSessionsSession(w http.ResponseWriter, r *http.Request) {
+func deleteSessionsSession(w http.ResponseWriter, req *http.Request) {
 }
 
 // Actual push endpoints
 // TODO: What to name these? URL structure?
 
-func postUserServicePush() {
+func postUserServicePush(w http.ResponseWriter, req *http.Request) {
 }
 
 func registerAPIHandlers(r *mux.Router) {

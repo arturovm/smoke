@@ -1,2 +1,3 @@
 smoke.bin
 *.swp
+rethinkdb_data
