@@ -1,3 +1,5 @@
 smoke.bin
 *.swp
+*.swn
+*.swo
 rethinkdb_data
